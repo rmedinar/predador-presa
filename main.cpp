@@ -45,6 +45,12 @@ int lotkavolterra(){ \\essa função cria os arquivos de imagem e retorna se a fun
 		parada = plotaponto(figura); \*é assim que eu endereço?*\
 	}
 
+
+	\*como fecha um arquivo mesmo?*\
+	\\essa função vai gerar um gráfico para cada vez que for chamada. se chamada 10000000 vezes, irá gerar 10000000 gráficos, o que pode ficar pesado
+	\\talvez fosse uma boa ideia colocar um contador de modo que 99 a cada 100 gráficos sejam apagados antes do fim da função.
+	\\abrir um arquivo para apaga-lo depois de obter um resultado 99% das vezes parece chato, há como contornar isso.
+
 	if(parada==5){ \\ estabilidade? podemos rodar umas vezes. alguém tem parâmetro melhor de detecção de estabilidade?
 		return 0;
 	}
@@ -63,7 +69,7 @@ int lotkavolterra(){ \\essa função cria os arquivos de imagem e retorna se a fun
 	else{
 		sout << "erro lotkavolterra";
 	}
-	return 0;
+	return -1;
 }
 
 int main() {
