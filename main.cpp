@@ -1,10 +1,17 @@
 #include <iostream>
 
+\\http://ac.els-cdn.com/0893965994900957/1-s2.0-0893965994900957-main.pdf?_tid=304b6e80-15e6-11e3-9ca3-00000aab0f01&acdnat=1378356594_b2d7572a95e0c3c859ce7f6627ebbeab
+\\usando a eq. (1)
 
+float s[4];
+float r[3];
+float a[3][3];
+float sponto;
+float deltaT; \\intervalo de tempo entre os pontos. note que esse valor poderia entrar como uma constante em cada um dos parametros r e a.
 
 \\globalmente podemos definir todas as constantes e um vetor float com a população de cada espécie, e um marcador de tempo só para evitar problemas. O tempo é 0 no instante em que surge o primeiro individuo mutante da especie.
 \\Do tipo float e não do tipo int, pois acho que as equações n vão funcionar de int.
-\\ s[0] -> tempo, s[1]->população de crianças, s[2] -> população de lobos, s[3] -> população de lobos mutantes, s[3]=1 sempre que s[0]==0.
+\\ s[3] -> tempo, s[0]->população de crianças, s[1] -> população de lobos, s[2] -> população de lobos mutantes, s[2]=1 sempre que s[3]==0.
 
 
 void diferençasfinitas(){ 
@@ -14,6 +21,15 @@ void diferençasfinitas(){
 	\\ os parãmetros são variaveis globais
 	\\a função retorna as populações no tempo t+1
 	\\ como não lembro como faz para uma função retornar 3 números a fiz do tipo void, haverá um vetor de 3 floats o qual esta função editará.
+	for(i=0;i<3;i++){
+		sponto = s[i]*r[i];
+		for(j=0;j<3;j++){
+			sponto = sponto + a[i][j]*u[j];
+		}
+		s[i] = s[i] + sponto/deltaT;
+	}
+	s[3]++;
+	
 
 }
 
@@ -55,15 +71,15 @@ int lotkavolterra(){ \\essa função cria os arquivos de imagem e retorna se a fun
 		return 0;
 	}
 
-	if(s[1]==0){ \\extinção
+	if(s[0]==0){ \\extinção
 		return 1;
 	}
 
-	if(s[2]==0){ \\extinção
+	if(s[1]==0){ \\extinção
 		return 2;
 	}
 
-	if(s[3]==0){ \\extinção
+	if(s[2]==0){ \\extinção
 		return 3;
 	}
 	else{
@@ -82,7 +98,7 @@ int main() {
 		z = 0,00001 + i*0,000000009;
 		for(j=10000;j>1;j--){
 			y = 1 + i*0,0009.;
-			Matriz[i,j]=lotkavolterra();
+			Matriz[i][j]=lotkavolterra();
 		}
 	}*\
 
