@@ -8,6 +8,7 @@ float r[3];
 float a[3][3];
 float sponto;
 float deltaT; \\intervalo de tempo entre os pontos. note que esse valor poderia entrar como uma constante em cada um dos parametros r e a.
+float eqestat[4] = 15;
 
 \\globalmente podemos definir todas as constantes e um vetor float com a população de cada espécie, e um marcador de tempo só para evitar problemas. O tempo é 0 no instante em que surge o primeiro individuo mutante da especie.
 \\Do tipo float e não do tipo int, pois acho que as equações n vão funcionar de int.
@@ -22,18 +23,26 @@ void diferençasfinitas(){
 	\\a função retorna as populações no tempo t+1
 	\\ como não lembro como faz para uma função retornar 3 números a fiz do tipo void, haverá um vetor de 3 floats o qual esta função editará.
 	for(i=0;i<3;i++){
+		eqestat[i]=s[i]
 		sponto = s[i]*r[i];
 		for(j=0;j<3;j++){
 			sponto = sponto + a[i][j]*u[j];
 		}
 		s[i] = s[i] + sponto/deltaT;
+
+		if(-0.01 < s[i]-eqestat[i] < 0.01){ \\detecta equilibrios estaveis, eqestat[3] é um contador de paciência, se paciencia ==0, o ponto ja ficou parado de mais.
+			if(eqestat[3]==0){
+				break;
+			}
+		}
+				
 	}
 	s[3]++;
 	
 
 }
 
-int plotaponto(*imagem){  \\ como é o imput aqui? não me lembro
+int plotaponto(*imagem){  \\ como é o input aqui? não me lembro
 
 	\\essa função recebe um endereço de um arquivo de imagem
 	\\a função desenha um ponto nesse arquivo de imagem.
@@ -53,7 +62,7 @@ int lotkavolterra(){ \\essa função cria os arquivos de imagem e retorna se a fun
 	
 	int parada=0; 
 	
-	while(parada<5 && s[0]>0 && s[2]>0){ \*5 um numero arbitrariamente alto, veja mais função ponto*\\*se uma população se extingue o laço para também.*\\*a espécie s[1] representa os predadores não mutantes, e não é um problema se ele se estinguir*\
+	while(parada<5 && s[0]>0 && s[2]>0 && eqestat[3]==0){ \*5 um numero arbitrariamente alto, veja mais função ponto*\\*se uma população se extingue o laço para também.*\\*a espécie s[1] representa os predadores não mutantes, e não é um problema se ele se estinguir*\
 		
 		diferençasfinitas();
 		parada = plotaponto(figura); \*é assim que eu endereço?*\
@@ -73,12 +82,12 @@ int lotkavolterra(){ \\essa função cria os arquivos de imagem e retorna se a fun
 		return 1;
 	}
 
-	if(s[1]==0){ \\extinção
-		return 2;
-	}
-
 	if(s[2]==0){ \\extinção
 		return 3;
+	}
+
+	if(eqestat[3]==0){ \\eq. estatico
+		return 10;
 	}
 	else{
 		sout << "erro lotkavolterra";
