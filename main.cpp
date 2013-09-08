@@ -37,9 +37,7 @@ int plotaponto(*imagem){  \\ como é o imput aqui? não me lembro
 
 	\\essa função recebe um endereço de um arquivo de imagem
 	\\a função desenha um ponto nesse arquivo de imagem.
-	\\importante que este arquivo registre não só quais pontos foram percorridos, mas também quantas vezes, 
-	\\como se registrasse em cinza claro, mas ao passar pela segunda vez sobre um ponto o pintasse de cinza escuro.
-	\\assim poderemos determinar o critério de parada como o momento em que um ponto foi percorrido 5 vezes AKA ficando um amontoado ilegível
+	\\?? talvez ao invez de um arquivo de imagem fosse melhor fazem no programa mesmo e depois exportar tudo de uma vez, não sei.
 }
 
 int lotkavolterra(){ \\essa função cria os arquivos de imagem e retorna se a função acaba em extinção ou estabilidade 
@@ -67,7 +65,7 @@ int lotkavolterra(){ \\essa função cria os arquivos de imagem e retorna se a fun
 	\\talvez fosse uma boa ideia colocar um contador de modo que 99 a cada 100 gráficos sejam apagados antes do fim da função.
 	\\abrir um arquivo para apaga-lo depois de obter um resultado 99% das vezes parece chato, há como contornar isso.
 
-	if(parada==5){ \\ estabilidade? podemos rodar umas vezes. alguém tem parâmetro melhor de detecção de estabilidade?
+	if(s[3]>3000){ \\ estabilidade? podemos rodar umas vezes. alguém tem parâmetro melhor de detecção de estabilidade?
 		return 0;
 	}
 
